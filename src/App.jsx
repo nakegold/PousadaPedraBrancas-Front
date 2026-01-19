@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import VoucherCard from "./components/VoucherCard";
-import Fornecedores from "./components/fornecedores/Fornecedores";
+import Fornecedores from "./components/Fornecedores/Fornecedores";
 
 /* ===== MODELO ===== */
 const modeloForm = {
