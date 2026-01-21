@@ -1,58 +1,45 @@
-import { useEffect, useState } from "react";
-
-const meses = [
-  "Janeiro","Fevereiro","Março","Abril","Maio","Junho",
-  "Julho","Agosto","Setembro","Outubro","Novembro","Dezembro",
-];
-
 export default function DashboardOperacoes({ onVerMes }) {
-  const [contagem, setContagem] = useState({});
-
-  useEffect(() => {
-    async function carregar() {
-      const novo = {};
-
-      for (let i = 1; i <= 12; i++) {
-        const res = await fetch(
-          `https://pousadapedrabrancas.onrender.com/operacoes?mes=${i}&ano=2026`
-        );
-        const data = await res.json();
-        novo[i] = data.length;
-      }
-
-      setContagem(novo);
-    }
-
-    carregar();
-  }, []);
+  const meses = [
+    "Janeiro","Fevereiro","Março","Abril","Maio","Junho",
+    "Julho","Agosto","Setembro","Outubro","Novembro","Dezembro"
+  ];
 
   return (
-    <div style={{ display: "grid", gridTemplateColumns: "repeat(3,1fr)", gap: 16 }}>
-      {meses.map((m, i) => (
-        <div key={i} style={card}>
-          <h4>{m}</h4>
-          <p>{contagem[i + 1] || 0} fornecedores</p>
-          <button style={btn} onClick={() => onVerMes(i + 1)}>
-            Ver mais
-          </button>
-        </div>
-      ))}
-    </div>
+    <>
+      <h1>Fornecedores de Operações</h1>
+      <p style={{ color: "#666" }}>
+        Organização mensal dos fornecedores de operação — 2026
+      </p>
+
+      <div
+        style={{
+          display: "grid",
+          gridTemplateColumns: "repeat(auto-fit, minmax(160px,1fr))",
+          gap: 16,
+          marginTop: 20,
+        }}
+      >
+        {meses.map((mes, index) => (
+          <div
+            key={mes}
+            style={card}
+            onClick={() => onVerMes(index + 1)}
+          >
+            <h3 style={{ margin: 0 }}>{mes}</h3>
+            <p style={{ fontSize: 13, color: "#666" }}>
+              Ver fornecedores
+            </p>
+          </div>
+        ))}
+      </div>
+    </>
   );
 }
 
 const card = {
   background: "#fff",
-  padding: 16,
+  padding: 20,
   borderRadius: 14,
-  boxShadow: "0 4px 12px rgba(0,0,0,0.08)",
-};
-
-const btn = {
-  background: "#1e6bd6",
-  color: "#fff",
-  border: "none",
-  padding: "6px 12px",
-  borderRadius: 8,
+  boxShadow: "0 2px 10px rgba(0,0,0,0.08)",
   cursor: "pointer",
 };
