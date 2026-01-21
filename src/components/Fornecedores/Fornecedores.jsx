@@ -10,10 +10,10 @@ import ListaOperacoesMes from "./ListaOperacoesMes";
 
 export default function Fornecedores() {
   // ===== TELAS =====
-  const [telaFornecedor, setTelaFornecedor] = useState("dashboard"); 
+  const [telaFornecedor, setTelaFornecedor] = useState("dashboard");
   // dashboard | lista | novo | ver | editar
 
-  const [telaOperacao, setTelaOperacao] = useState("dashboard"); 
+  const [telaOperacao, setTelaOperacao] = useState("dashboard");
   // dashboard | lista
 
   const [mesSelecionado, setMesSelecionado] = useState(null);
@@ -56,15 +56,20 @@ export default function Fornecedores() {
   // ================= RENDER =================
   return (
     <div style={{ maxWidth: 900, margin: "0 auto", padding: "0 16px" }}>
-
       {/* ===== DASHBOARD ===== */}
       {telaFornecedor === "dashboard" && (
         <>
           {/* DASHBOARD FORNECEDORES NORMAIS */}
           <FornecedoresDashboard
             fornecedores={fornecedores}
-            onNovo={() => setTelaFornecedor("novo")}
-            onVerLista={() => setTelaFornecedor("lista")}
+            onNovo={() => {
+              setTelaOperacao("dashboard"); // reset operações
+              setTelaFornecedor("novo");
+            }}
+            onVerLista={() => {
+              setTelaOperacao("dashboard"); // reset operações
+              setTelaFornecedor("lista");
+            }}
           />
 
           {/* DASHBOARD OPERAÇÕES (ABAIXO) */}
@@ -106,7 +111,7 @@ export default function Fornecedores() {
         />
       )}
 
-      {/* ===== NOVO ===== */}
+      {/* ===== NOVO FORNECEDOR ===== */}
       {telaFornecedor === "novo" && (
         <FornecedorForm
           onSalvar={criarFornecedor}
@@ -130,9 +135,6 @@ export default function Fornecedores() {
           onCancelar={() => setTelaFornecedor("lista")}
         />
       )}
-
     </div>
   );
 }
-
-
