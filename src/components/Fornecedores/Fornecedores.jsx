@@ -54,19 +54,20 @@ const [mesSelecionado, setMesSelecionado] = useState(null);
     }).then(() => carregarFornecedores());
   }
 
- return (
+  return (
   <div style={{ maxWidth: 900, margin: "0 auto", padding: "0 16px" }}>
 
-    {/* ===== DASHBOARD FORNECEDORES NORMAIS ===== */}
+    {/* ================= DASHBOARD ================= */}
     {telaFornecedor === "dashboard" && (
       <>
+        {/* DASHBOARD FORNECEDORES NORMAIS */}
         <FornecedoresDashboard
           fornecedores={fornecedores}
           onNovo={() => setTelaFornecedor("novo")}
           onVerLista={() => setTelaFornecedor("lista")}
         />
 
-        {/* ===== DASHBOARD OPERAÇÕES (SEMPRE ABAIXO) ===== */}
+        {/* DASHBOARD OPERAÇÕES (ABAIXO DO NORMAL) */}
         <div style={{ marginTop: 40 }}>
           {telaOperacao === "dashboard" && (
             <DashboardOperacoes
@@ -87,7 +88,7 @@ const [mesSelecionado, setMesSelecionado] = useState(null);
       </>
     )}
 
-    {/* ===== LISTA FORNECEDORES NORMAIS ===== */}
+    {/* ================= LISTA FORNECEDORES ================= */}
     {telaFornecedor === "lista" && (
       <FornecedorList
         fornecedores={fornecedores}
@@ -105,7 +106,7 @@ const [mesSelecionado, setMesSelecionado] = useState(null);
       />
     )}
 
-    {/* ===== NOVO FORNECEDOR NORMAL ===== */}
+    {/* ================= NOVO FORNECEDOR NORMAL ================= */}
     {telaFornecedor === "novo" && (
       <FornecedorForm
         onSalvar={criarFornecedor}
@@ -113,7 +114,7 @@ const [mesSelecionado, setMesSelecionado] = useState(null);
       />
     )}
 
-    {/* ===== DETALHE ===== */}
+    {/* ================= DETALHE ================= */}
     {telaFornecedor === "ver" && fornecedorSelecionado && (
       <FornecedorDetalhe
         fornecedor={fornecedorSelecionado}
@@ -121,14 +122,14 @@ const [mesSelecionado, setMesSelecionado] = useState(null);
       />
     )}
 
-    {/* ===== EDITAR ===== */}
+    {/* ================= EDITAR ================= */}
     {telaFornecedor === "editar" && fornecedorSelecionado && (
       <FornecedorForm
         fornecedorInicial={fornecedorSelecionado}
-        onSalvar={criarFornecedor} // depois vira PUT
+        onSalvar={criarFornecedor} // depois trocamos pra PUT
         onCancelar={() => setTelaFornecedor("lista")}
       />
     )}
-
   </div>
 );
+
