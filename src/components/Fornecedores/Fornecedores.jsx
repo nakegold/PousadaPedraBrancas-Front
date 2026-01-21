@@ -15,8 +15,14 @@ export default function Fornecedores() {
   const [fornecedorSelecionado, setFornecedorSelecionado] = useState(null);
 
   // fornecedores de operação
-  const [telaOp, setTelaOp] = useState("dashboard"); // dashboard | lista
-  const [mesSelecionado, setMesSelecionado] = useState(null);
+  const [telaFornecedor, setTelaFornecedor] = useState("dashboard");
+// dashboard | lista | novo | ver | editar
+
+const [telaOperacao, setTelaOperacao] = useState("dashboard");
+// dashboard | lista
+
+const [mesSelecionado, setMesSelecionado] = useState(null);
+
 
   function carregarFornecedores() {
     fetch("https://pousadapedrabrancas.onrender.com/fornecedores")
@@ -48,77 +54,81 @@ export default function Fornecedores() {
     }).then(() => carregarFornecedores());
   }
 
-  return (
+ return (
   <div style={{ maxWidth: 900, margin: "0 auto", padding: "0 16px" }}>
 
-    {/* ===== FORNECEDORES DE OPERAÇÃO ===== */}
-    <h2 style={{ marginTop: 10 }}>Fornecedores de Operações — 2026</h2>
+    {/* ===== DASHBOARD FORNECEDORES NORMAIS ===== */}
+    {telaFornecedor === "dashboard" && (
+      <>
+        <FornecedoresDashboard
+          fornecedores={fornecedores}
+          onNovo={() => setTelaFornecedor("novo")}
+          onVerLista={() => setTelaFornecedor("lista")}
+        />
 
-    {telaOp === "dashboard" && (
-      <DashboardOperacoes
-        onVerMes={(mes) => {
-          setMesSelecionado(mes);
-          setTelaOp("lista");
-        }}
-      />
+        {/* ===== DASHBOARD OPERAÇÕES (SEMPRE ABAIXO) ===== */}
+        <div style={{ marginTop: 40 }}>
+          {telaOperacao === "dashboard" && (
+            <DashboardOperacoes
+              onVerMes={(mes) => {
+                setMesSelecionado(mes);
+                setTelaOperacao("lista");
+              }}
+            />
+          )}
+
+          {telaOperacao === "lista" && (
+            <ListaOperacoesMes
+              mes={mesSelecionado}
+              voltar={() => setTelaOperacao("dashboard")}
+            />
+          )}
+        </div>
+      </>
     )}
 
-    {telaOp === "lista" && (
-      <ListaOperacoesMes
-        mes={mesSelecionado}
-        voltar={() => setTelaOp("dashboard")}
-      />
-    )}
-
-    <hr style={{ margin: "30px 0" }} />
-
-    {/* ===== FORNECEDORES NORMAIS ===== */}
-    {tela === "dashboard" && (
-      <FornecedoresDashboard
-        fornecedores={fornecedores}
-        onNovo={() => setTela("novo")}
-        onVerLista={() => setTela("lista")}
-      />
-    )}
-
-    {tela === "lista" && (
+    {/* ===== LISTA FORNECEDORES NORMAIS ===== */}
+    {telaFornecedor === "lista" && (
       <FornecedorList
         fornecedores={fornecedores}
-        onNovo={() => setTela("novo")}
-        onVoltar={() => setTela("dashboard")}
+        onNovo={() => setTelaFornecedor("novo")}
+        onVoltar={() => setTelaFornecedor("dashboard")}
         onVer={(f) => {
           setFornecedorSelecionado(f);
-          setTela("ver");
+          setTelaFornecedor("ver");
         }}
         onEditar={(f) => {
           setFornecedorSelecionado(f);
-          setTela("editar");
+          setTelaFornecedor("editar");
         }}
         onExcluir={deletarFornecedor}
       />
     )}
 
-    {tela === "novo" && (
+    {/* ===== NOVO FORNECEDOR NORMAL ===== */}
+    {telaFornecedor === "novo" && (
       <FornecedorForm
         onSalvar={criarFornecedor}
-        onCancelar={() => setTela("lista")}
+        onCancelar={() => setTelaFornecedor("lista")}
       />
     )}
 
-    {tela === "ver" && fornecedorSelecionado && (
+    {/* ===== DETALHE ===== */}
+    {telaFornecedor === "ver" && fornecedorSelecionado && (
       <FornecedorDetalhe
         fornecedor={fornecedorSelecionado}
-        onVoltar={() => setTela("lista")}
+        onVoltar={() => setTelaFornecedor("lista")}
       />
     )}
 
-    {tela === "editar" && fornecedorSelecionado && (
+    {/* ===== EDITAR ===== */}
+    {telaFornecedor === "editar" && fornecedorSelecionado && (
       <FornecedorForm
         fornecedorInicial={fornecedorSelecionado}
-        onSalvar={criarFornecedor} // depois trocamos pra PUT
-        onCancelar={() => setTela("lista")}
+        onSalvar={criarFornecedor} // depois vira PUT
+        onCancelar={() => setTelaFornecedor("lista")}
       />
     )}
+
   </div>
 );
-
