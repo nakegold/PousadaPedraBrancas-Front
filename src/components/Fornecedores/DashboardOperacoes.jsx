@@ -6,33 +6,25 @@ export default function DashboardOperacoes({ onVerMes, onNovo }) {
 
   return (
     <>
-      <h1>Fornecedores de Operações</h1>
-      <p style={{ color: "#666" }}>
-        Organização mensal dos fornecedores de operação — 2026
-      </p>
+      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+        <div>
+          <h1>Fornecedores de Operações</h1>
+          <p style={{ color: "#666" }}>
+            Organização mensal dos fornecedores de operação — 2026
+          </p>
+        </div>
 
-      {/* ✅ BOTÃO NOVO */}
-      <button
-        onClick={onNovo}
-        style={{
-          background: "#1e6bd6",
-          color: "#fff",
-          border: "none",
-          padding: "10px 18px",
-          borderRadius: 10,
-          cursor: "pointer",
-          marginBottom: 20,
-        }}
-      >
-        + Novo Fornecedor de Operação
-      </button>
+        <button style={btnPrimary} onClick={onNovo}>
+          + Novo Fornecedor de Operação
+        </button>
+      </div>
 
       <div
         style={{
           display: "grid",
           gridTemplateColumns: "repeat(auto-fit, minmax(160px,1fr))",
           gap: 16,
-          marginTop: 10,
+          marginTop: 20,
         }}
       >
         {meses.map((mes, index) => (
@@ -57,5 +49,14 @@ const card = {
   padding: 20,
   borderRadius: 14,
   boxShadow: "0 2px 10px rgba(0,0,0,0.08)",
+  cursor: "pointer",
+};
+
+const btnPrimary = {
+  background: "#1e6bd6",
+  color: "#fff",
+  border: "none",
+  padding: "10px 18px",
+  borderRadius: 10,
   cursor: "pointer",
 };
