@@ -10,6 +10,7 @@ import DashboardOperacoes from "./DashboardOperacoes";
 import ListaOperacoesMes from "./ListaOperacoesMes";
 
 export default function Fornecedores() {
+  const [operacaoSelecionada, setOperacaoSelecionada] = useState(null);
   // ===== TELAS =====
   const [telaFornecedor, setTelaFornecedor] = useState("dashboard");
   // dashboard | lista | novo | ver | editar
@@ -24,6 +25,14 @@ export default function Fornecedores() {
   const [fornecedorSelecionado, setFornecedorSelecionado] = useState(null);
 
   // ===== API =====
+  function deletarOperacao(id) {
+  if (!confirm("Excluir fornecedor de operação?")) return;
+
+  fetch(`https://pousadapedrabrancas.onrender.com/operacoes/${id}`, {
+    method: "DELETE",
+  }).then(() => setTelaOperacao("dashboard"));
+}
+
   function carregarFornecedores() {
     fetch("https://pousadapedrabrancas.onrender.com/fornecedores")
       .then((res) => res.json())
