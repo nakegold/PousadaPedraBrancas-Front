@@ -18,9 +18,24 @@ export default function FornecedoresDashboard({
         Visão geral dos fornecedores cadastrados.
       </p>
 
-      <button style={btnPrimary} onClick={onNovo}>
-        + Novo Fornecedor
-      </button>
+      {/* ✅ BOTÕES LADO A LADO */}
+      <div style={{ display: "flex", gap: 10, marginBottom: 20 }}>
+        <button style={btnPrimary} onClick={onNovo}>
+          + Novo Fornecedor
+        </button>
+
+        <button
+          onClick={() =>
+            window.open(
+              "https://pousadapedrabrancas.onrender.com/excel/fornecedores",
+              "_blank"
+            )
+          }
+          style={btnExcel}
+        >
+          📥 Exportar Excel
+        </button>
+      </div>
 
       <div
         style={{
@@ -40,19 +55,6 @@ export default function FornecedoresDashboard({
         style={{ ...btnGray, marginTop: 20 }}
       >
         Ver Lista
-      </button>
-
-      {/* ✅ BOTÃO EXCEL (VERDE) */}
-      <button
-        onClick={() =>
-          window.open(
-            "https://pousadapedrabrancas.onrender.com/excel/fornecedores",
-            "_blank"
-          )
-        }
-        style={{ ...btnExcel, marginTop: 10 }}
-      >
-        📥 Exportar Excel
       </button>
     </>
   );
@@ -92,7 +94,7 @@ const btnGray = {
 };
 
 const btnExcel = {
-  background: "#2ecc71", // ✅ verde
+  background: "#2ecc71",
   color: "#fff",
   border: "none",
   padding: "10px 18px",
