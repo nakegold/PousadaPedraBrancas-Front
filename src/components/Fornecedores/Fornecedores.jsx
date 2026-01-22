@@ -85,26 +85,33 @@ export default function Fornecedores() {
         />
 
 
-          {/* DASHBOARD OPERAÇÕES (ABAIXO) */}
-          <div style={{ marginTop: 40 }}>
-            {telaOperacao === "dashboard" && (
-              <DashboardOperacoes
-                onVerMes={(mes) => {
-                  setMesSelecionado(mes);
-                  setTelaOperacao("lista");
-                }}
-              />
-            )}
+         {/* ===== DASHBOARD OPERAÇÕES ===== */}
+        <div style={{ marginTop: 40 }}>
+          {telaOperacao === "dashboard" && (
+            <DashboardOperacoes
+              onVerMes={(mes) => {
+                setMesSelecionado(mes);
+                setTelaOperacao("lista");
+              }}
+              onNovo={() => setTelaOperacao("novo")}
+            />
+          )}
+        
+          {telaOperacao === "lista" && (
+            <ListaOperacoesMes
+              mes={mesSelecionado}
+              voltar={() => setTelaOperacao("dashboard")}
+            />
+          )}
+        
+          {telaOperacao === "novo" && (
+            <OperacaoForm
+              onSalvar={criarOperacao}
+              onCancelar={() => setTelaOperacao("dashboard")}
+            />
+          )}
+        </div>
 
-            {telaOperacao === "lista" && (
-              <ListaOperacoesMes
-                mes={mesSelecionado}
-                voltar={() => setTelaOperacao("dashboard")}
-              />
-            )}
-          </div>
-        </>
-      )}
 
       {/* ===== LISTA FORNECEDORES ===== */}
       {telaFornecedor === "lista" && (
