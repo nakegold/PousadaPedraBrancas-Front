@@ -160,12 +160,61 @@ function App() {
               />
             )}
 
+            {/* ===== DETALHES BONITOS ===== */}
             {tela === "ver" && voucherSelecionado && (
               <>
                 <button onClick={() => setTela("lista")} style={linkBtn}>
                   ← Voltar
                 </button>
-                <pre style={card}>{JSON.stringify(voucherSelecionado, null, 2)}</pre>
+
+                <h1 style={{ color: "#1e6bd6" }}>Detalhes do Voucher</h1>
+
+                <Section title="Dados da Solicitação">
+                  <Linha label="Empresa" valor={voucherSelecionado.empresa} />
+                  <Linha label="Solicitante" valor={voucherSelecionado.solicitante} />
+                  <Linha label="Operação" valor={voucherSelecionado.operacao} />
+                  <Linha
+                    label="Faturado para Empresa"
+                    valor={voucherSelecionado.faturado_empresa ? "Sim" : "Não"}
+                  />
+                  {voucherSelecionado.empresa_faturada && (
+                    <Linha
+                      label="Empresa Faturada"
+                      valor={voucherSelecionado.empresa_faturada}
+                    />
+                  )}
+                </Section>
+
+                <Section title="Período">
+                  <Linha label="Check-in" valor={voucherSelecionado.checkin} />
+                  <Linha label="Check-out" valor={voucherSelecionado.checkout} />
+                </Section>
+
+                <Section title="Hotel">
+                  <Linha label="Nome" valor={voucherSelecionado.hotel_nome} />
+                  <Linha label="Endereço" valor={voucherSelecionado.hotel_endereco} />
+                  <Linha label="Café" valor={voucherSelecionado.hotel_cafe} />
+                  <Linha label="Lavanderia" valor={voucherSelecionado.hotel_lavanderia} />
+                </Section>
+
+                <Section title="Contato">
+                  <Linha
+                    label="Responsável Reserva"
+                    valor={voucherSelecionado.responsavel_reserva}
+                  />
+                  <Linha
+                    label="Responsável Operacional"
+                    valor={voucherSelecionado.responsavel_operacional}
+                  />
+                  <Linha label="Email" valor={voucherSelecionado.email_contato} />
+                  <Linha label="Telefone" valor={voucherSelecionado.telefone_contato} />
+                </Section>
+
+                {voucherSelecionado.observacoes && (
+                  <Section title="Observações">
+                    <Linha label="Obs." valor={voucherSelecionado.observacoes} />
+                  </Section>
+                )}
               </>
             )}
           </>
@@ -319,6 +368,24 @@ function Section({ title, children }) {
   );
 }
 
+function Linha({ label, valor }) {
+  return (
+    <div style={{ display: "flex", flexDirection: "column", gap: 4 }}>
+      <label style={{ fontSize: 13, color: "#555" }}>{label}</label>
+      <div
+        style={{
+          padding: 10,
+          border: "1px solid #ccc",
+          borderRadius: 8,
+          background: "#f9f9f9",
+        }}
+      >
+        {valor || "-"}
+      </div>
+    </div>
+  );
+}
+
 function Input({ label, value, onChange, type = "text" }) {
   return (
     <div style={{ display: "flex", flexDirection: "column", gap: 4 }}>
@@ -352,4 +419,3 @@ const card = { background: "#fff", padding: 20, marginBottom: 20, borderRadius: 
 const linkBtn = { background: "none", border: "none", color: "#1e6bd6", cursor: "pointer" };
 
 export default App;
-
