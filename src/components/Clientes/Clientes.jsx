@@ -21,16 +21,16 @@ export default function Clientes() {
   // dashboard | lista | novo | editar | ver
 
   const [clienteSelecionado, setClienteSelecionado] = useState(null);
-  const [form, setForm] = useState(modelo);
 
   /* ===== LOAD ===== */
   async function carregar() {
-    const { data } = await supabase
-      .from("clientes")
-      .select("*")
-      .order("created_at", { ascending: false });
-
-    setClientes(data || []);
+    try {
+      const res = await fetch("https://pousadapedrabrancas.onrender.com/clientes");
+      const data = await res.json();
+      setClientes(data || []);
+    } catch (err) {
+      console.error("Erro ao carregar clientes:", err);
+    }
   }
 
   useEffect(() => {
@@ -45,17 +45,29 @@ export default function Clientes() {
       return;
     }
 
-    await supabase.from("clientes").insert([novo]);
+    await fetch("https://pousadapedrabrancas.onrender.com/clientes", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(novo),
+    });
 
     setTela("lista");
     carregar();
   }
 
   async function editar(atualizado) {
-    await supabase
-      .from("clientes")
-      .update(atualizado)
-      .eq("id", clienteSelecionado.id);
+    await fetch(
+      `https://pousadapedrabrancas.onrender.com/clientes/${clienteSelecionado.id}`,
+      {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(atualizado),
+      }
+    );
 
     setTela("lista");
     setClienteSelecionado(null);
@@ -65,7 +77,13 @@ export default function Clientes() {
   async function deletar(id) {
     if (!confirm("Deseja excluir?")) return;
 
-    await supabase.from("clientes").delete().eq("id", id);
+    await fetch(
+      `https://pousadapedrabrancas.onrender.com/clientes/${id}`,
+      {
+        method: "DELETE",
+      }
+    );
+
     carregar();
   }
 
@@ -73,7 +91,7 @@ export default function Clientes() {
 
   return (
     <div style={{ maxWidth: 900, margin: "0 auto", padding: "0 16px" }}>
-
+      
       {/* ===== DASHBOARD ===== */}
       {tela === "dashboard" && (
         <ClientesDashboard
@@ -125,7 +143,6 @@ export default function Clientes() {
           onVoltar={() => setTela("lista")}
         />
       )}
-
     </div>
   );
 }
