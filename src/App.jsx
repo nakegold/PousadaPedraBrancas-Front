@@ -100,14 +100,19 @@ function App() {
         </div>
 
         {/* ABAS */}
-        <div style={{ display: "flex", gap: 24, margin: "20px 0", borderBottom: "1px solid #ddd" }}>
-          <TabButton ativo={aba === "vouchers"} onClick={() => setAba("vouchers")}>
-            Vouchers
-          </TabButton>
-          <TabButton ativo={aba === "fornecedores"} onClick={() => setAba("fornecedores")}>
-            Fornecedores
-          </TabButton>
-        </div>
+<div style={{ display: "flex", gap: 24, margin: "20px 0", borderBottom: "1px solid #ddd" }}>
+  <TabButton ativo={aba === "vouchers"} onClick={() => setAba("vouchers")}>
+    Vouchers
+  </TabButton>
+
+  <TabButton ativo={aba === "fornecedores"} onClick={() => setAba("fornecedores")}>
+    Fornecedores
+  </TabButton>
+
+  <TabButton ativo={aba === "clientes"} onClick={() => setAba("clientes")}>
+    Clientes
+  </TabButton>
+</div>
 
         {/* ===== VOUCHERS ===== */}
         {aba === "vouchers" && (
